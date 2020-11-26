@@ -10,6 +10,9 @@ class Confirmation extends Model
     use HasFactory;
 
     protected $fillable = ['hash', 'approved'];
+    protected $casts = [
+        'approved' => 'boolean',
+    ];
     protected $with = ['confirmable'];
 
     public function confirmable()

@@ -26,5 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResources([
         'organizations' => OrganizationController::class,
         'organizations.members' => OrganizationMemberController::class,
+        'organizations.loans' => LoanController::class,
     ]);
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Rules\Confirmed;
+use App\Rules\IsNotMember;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -34,14 +35,7 @@ class OrganizationMemberController extends Controller
                 'required',
                 Rule::exists('users', 'id'),
                 new Confirmed(),
-                function ($attribute, $value, $fail) use ($organization) {
-                    $membership = $organization->members()
-                        ->where('user_id', $value)
-                        ->first();
-                    if ($membership) {
-                        $fail("{$attribute} is already a member.");
-                    }
-                },
+                new IsNotMember($organization),
             ]
         ]);
 

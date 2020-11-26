@@ -14,7 +14,10 @@ class ConfirmationController extends Controller
      */
     public function index()
     {
-        return Confirmation::paginate(20);
+        return [
+            'users' => Confirmation::user()->paginate(20),
+            'loans' => Confirmation::loan()->paginate(20),
+        ];
     }
 
     /**

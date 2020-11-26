@@ -20,4 +20,9 @@ class Organization extends Model
     {
         return $this->hasMany(OrganizationMember::class);
     }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
 }
