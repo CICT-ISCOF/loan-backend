@@ -32,6 +32,7 @@ class OrganizationController extends Controller
             'website' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
             'number' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'max:255'],
         ]);
 
         return Organization::create($data);

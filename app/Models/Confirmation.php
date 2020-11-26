@@ -26,4 +26,9 @@ class Confirmation extends Model
     {
         return $query->where('confirmable_type', User::class);
     }
+
+    public function scopeLoan($query)
+    {
+        return $query->where('confirmable_type', Loan::class);
+    }
 }

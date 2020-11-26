@@ -24,12 +24,12 @@ class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->userName,
-            'number' => '+639502794623',
+            'number' => $this->faker->sentence,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'address' => $this->faker->text,
+            'address' => $this->faker->address,
             'password' => 'password',
-            'position' => $this->faker->text,
+            'position' => $this->faker->word,
         ];
     }
 }

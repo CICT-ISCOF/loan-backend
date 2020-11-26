@@ -19,6 +19,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('address')->nullable();
             $table->string('website')->nullable();
             $table->string('number')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

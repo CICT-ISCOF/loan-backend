@@ -29,7 +29,7 @@ class OrganizationMemberController extends Controller
     public function store(Request $request, Organization $organization)
     {
         $data = $request->validate([
-            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Normal'])],
+            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Member'])],
             'user_id' => [
                 'required',
                 Rule::exists('users', 'id'),
@@ -45,7 +45,8 @@ class OrganizationMemberController extends Controller
             ]
         ]);
 
-        return $organization->members()->create($data);
+        $member = $organization->members()->create($data);
+        return response($member, 201);
     }
 
     /**
