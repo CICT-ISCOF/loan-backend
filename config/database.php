@@ -65,12 +65,12 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DATABASE_URL', 'postgres://ytjikufu:5lbxF_4vIV848mKbpxbnxMazxmrA8JjT@satao.db.elephantsql.com:5432/ytjikufu'),
-            'host' => env('DB_HOST', 'satao.db.elephantsql.com'),
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'ytjikufu'),
-            'username' => env('DB_USERNAME', 'ytjikufu'),
-            'password' => env('DB_PASSWORD', '5lbxF_4vIV848mKbpxbnxMazxmrA8JjT'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
