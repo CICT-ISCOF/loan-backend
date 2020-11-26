@@ -47,10 +47,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "pre-autoload-dump": [
-            "@php artisan test"
-        ],
         "post-autoload-dump": [
+            "@php artisan test",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan migrate"
