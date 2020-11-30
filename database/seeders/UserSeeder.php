@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::create([
+        $admin = User::factory()->create([
             'username' => 'admin',
             'password' => 'admin',
             'role' => 'Super Admin',

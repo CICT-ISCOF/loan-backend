@@ -10,20 +10,23 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return User::with([
+        $user = $request->user();
+        return User::where('id', '!=', $user->id)->with([
             'confirmation',
             'memberships.organization.loans',
             'memberships.organization.members',
         ])->paginate(10);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        return User::with([
-            'confirmation',
-            'memberships.organization.loans',
-            'memberships.organization.members',
-        ])->findOrFail($id);
+        $user = $request->user();
+        return User::where('id', '!=', $user->id)
+            ->with([
+                'confirmation',
+                'memberships.organization.loans',
+                'memberships.organization.members',
+            ])->findOrFail($id);
     }
 
     public function store(Request $request)
@@ -44,11 +47,13 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::with([
-            'confirmation',
-            'memberships.organization.loans',
-            'memberships.organization.members',
-        ])->findOrFail($id);
+        $currentUser = $request->user();
+        $user = User::where('id', '!=', $currentUser->id)
+            ->with([
+                'confirmation',
+                'memberships.organization.loans',
+                'memberships.organization.members',
+            ])->findOrFail($id);
 
         $data = $request->validate([
             'username' => ['nullable', Rule::unique('users', 'username')],
@@ -66,9 +71,11 @@ class UserController extends Controller
         return $user;
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $currentUser = $request->user();
+        $user = User::where('id', '!=', $currentUser->id)
+            ->findOrFail($id);
         $user->delete();
 
         return response('', 204);

@@ -28,4 +28,6 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
         'organizations.members' => OrganizationMemberController::class,
         'organizations.loans' => LoanController::class,
     ]);
+
+    Route::apiResource('users', UserController::class)->middleware('admin');
 });

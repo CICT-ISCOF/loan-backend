@@ -16,6 +16,10 @@ class ForAdministratorsOnly
      */
     public function handle(Request $request, Closure $next)
     {
+        $user = $request->user();
+        if (!$user || $user->role !== 'Super Admin') {
+            return response('', 403);
+        }
         return $next($request);
     }
 }
