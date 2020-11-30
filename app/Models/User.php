@@ -57,7 +57,7 @@ class User extends Authenticatable
         static::created(function ($user) {
             $user->confirmation()->create([
                 'hash' => Str::random(5),
-                'approved' => env('APP_ENV', false) === 'local' || (request()->user() && request()->user()->role === 'Super Admin') || env('APP_ENV', 'testing'),
+                'approved' => env('APP_ENV', false) === 'local' || (request()->user() && request()->user()->role === 'Super Admin') || env('APP_ENV') === 'testing',
             ]);
         });
 

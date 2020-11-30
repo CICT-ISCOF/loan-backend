@@ -27,8 +27,14 @@ class OrganizationMemberController extends Controller
                 return response('', 403);
             }
         }
-        $organization->load(['members.user']);
-        return $organization->members()->paginate(10);
+
+        $builder = $organization->members()->with('user');
+        return [
+            'admins' => $builder->admin()->paginate(10),
+            'staff' => $builder->staff()->paginate(10),
+            'bookeepers' => $builder->bookeeper()->paginate(10),
+            'members' => $builder->member()->paginate(10),
+        ];
     }
 
     /**
@@ -54,7 +60,7 @@ class OrganizationMemberController extends Controller
         }
 
         $data = $request->validate([
-            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Member'])],
+            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Member', 'Staff'])],
             'username' => ['required'],
             // --
             'password' => [
@@ -155,7 +161,7 @@ class OrganizationMemberController extends Controller
                 return response('', 403);
             }
         }
-        return $organization->members()->findOrFail($id);
+        return $organization->members()->with('user')->findOrFail($id);
     }
 
     /**
@@ -179,7 +185,7 @@ class OrganizationMemberController extends Controller
         $membership = $organization->members()->findOrFail($id);
 
         $data = $request->validate([
-            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Member'])],
+            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Member', 'Staff'])],
         ]);
 
         $membership->update($data);

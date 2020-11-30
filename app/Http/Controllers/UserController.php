@@ -44,7 +44,7 @@ class UserController extends Controller
             'last_name' => ['required'],
             'address' => ['required'],
             'number' => ['required', Rule::unique('users', 'number')],
-            'role' => ['required', Rule::in(['Super Admin', 'Normal'])],
+            'role' => ['nullable', Rule::in(['Super Admin', 'Normal'])],
         ]);
 
         return User::create($data);

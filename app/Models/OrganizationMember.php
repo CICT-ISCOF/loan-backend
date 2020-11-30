@@ -31,6 +31,11 @@ class OrganizationMember extends Model
         return $this->by($query, 'Bookeeper');
     }
 
+    public function scopeStaff($query)
+    {
+        return $this->by($query, 'Staff');
+    }
+
     public function scopeMember($query)
     {
         return $this->by($query, 'Member');

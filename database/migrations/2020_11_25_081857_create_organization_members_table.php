@@ -19,7 +19,7 @@ class CreateOrganizationMembersTable extends Migration
             $table->id();
             $table->foreignIdFor(new User());
             $table->foreignIdFor(new Organization());
-            $table->enum('role', ['Admin', 'Bookeeper', 'Member']);
+            $table->enum('role', ['Admin', 'Bookeeper', 'Member', 'Staff']);
             $table->timestamps();
         });
     }

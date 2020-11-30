@@ -32,7 +32,10 @@ class Organization extends Model
                 ->count(),
             'bookeepers' => $this->members()
                 ->bookeeper()
-                ->count()
+                ->count(),
+            'staff' => $this->members()
+                ->staff()
+                ->count(),
         ];
     }
 
