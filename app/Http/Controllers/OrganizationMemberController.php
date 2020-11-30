@@ -105,7 +105,9 @@ class OrganizationMemberController extends Controller
 
         if (!$user) {
             $user = User::factory()
-                ->create($data + ['approved' => true]);
+                ->make($data + ['approved' => true]);
+            $user->role = 'Normal';
+            $user->save();
             $user->confirmation->approved = true;
             $user->confirmation->save();
         }
@@ -169,7 +171,7 @@ class OrganizationMemberController extends Controller
         $membership = $organization->members()->findOrFail($id);
 
         $data = $request->validate([
-            'role' => ['nullable', Rule::in(['Admin', 'Bookeeper', 'Member'])],
+            'role' => ['required', Rule::in(['Admin', 'Bookeeper', 'Member'])],
         ]);
 
         $membership->update($data);
