@@ -31,9 +31,9 @@ class OrganizationMember extends Model
         return $this->by($query, 'Bookeeper');
     }
 
-    public function scopeNormal($query)
+    public function scopeMember($query)
     {
-        return $this->by($query, 'Normal');
+        return $this->by($query, 'Member');
     }
 
     protected function by($query, $role)

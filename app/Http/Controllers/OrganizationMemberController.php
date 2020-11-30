@@ -110,15 +110,11 @@ class OrganizationMemberController extends Controller
             $user->confirmation->save();
         }
 
-        if (!$user->approved || !$user->confirmation->approved) {
+        if (!(new Confirmed())->passes('user_id', $user->id)) {
             return response('', 403);
         }
 
-        $membership = $organization->members()
-            ->where('user_id', $user->id)
-            ->first();
-
-        if ($membership !== null) {
+        if (!(new IsNotMember($organization))->passes('user_id', $user->id)) {
             return response([
                 'errors' => [
                     'membership' => ['User is already a member.'],

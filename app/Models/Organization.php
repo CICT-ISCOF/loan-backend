@@ -17,6 +17,25 @@ class Organization extends Model
         'email',
     ];
 
+    protected $appends = [
+        'counts',
+    ];
+
+    public function getCountsAttribute()
+    {
+        return [
+            'members' => $this->members()
+                ->member()
+                ->count(),
+            'admins' => $this->members()
+                ->admin()
+                ->count(),
+            'bookeepers' => $this->members()
+                ->bookeeper()
+                ->count()
+        ];
+    }
+
     public function members()
     {
         return $this->hasMany(OrganizationMember::class);

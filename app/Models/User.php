@@ -95,6 +95,7 @@ class User extends Authenticatable
                 return $confirmation->confirmable_id;
             })
             ->toArray();
-        return $query->whereIn('id', $ids);
+        return $query->whereIn('id', $ids)
+            ->where('approved', true);
     }
 }
