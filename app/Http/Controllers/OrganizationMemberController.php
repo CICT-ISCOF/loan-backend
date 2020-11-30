@@ -31,6 +31,7 @@ class OrganizationMemberController extends Controller
 
         return $organization->members()
             ->where('role', $request->role ?: 'Member')
+            ->with('user')
             ->paginate(10);
     }
 
