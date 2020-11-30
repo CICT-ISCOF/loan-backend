@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\OrganizationMember;
 use App\Models\User;
 use App\Rules\Confirmed;
 use App\Rules\IsNotMember;
@@ -28,13 +29,9 @@ class OrganizationMemberController extends Controller
             }
         }
 
-        $builder = $organization->members()->with('user');
-        return [
-            'admins' => $builder->admin()->paginate(10),
-            'staff' => $builder->staff()->paginate(10),
-            'bookeepers' => $builder->bookeeper()->paginate(10),
-            'members' => $builder->member()->paginate(10),
-        ];
+        return $organization->members()
+            ->where('role', $request->role ?: 'Member')
+            ->paginate(10);
     }
 
     /**
@@ -101,13 +98,14 @@ class OrganizationMemberController extends Controller
                         ->first() !== null;
                 })
             ],
-            // --
-            // 'user_id' => [
-            //     'required',
-            //     Rule::exists('users', 'id'),
-            //     new Confirmed(),
-            //     new IsNotMember($organization),
-            // ]
+            'user_id' => [
+                Rule::requiredIf(function () use ($request) {
+                    return !$request->has('username');
+                }),
+                Rule::exists('users', 'id'),
+                new Confirmed(),
+                new IsNotMember($organization),
+            ]
         ]);
 
         $user = User::where('username', $data['username'])
