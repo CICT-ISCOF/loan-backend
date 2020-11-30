@@ -18,8 +18,11 @@ class LoanController extends Controller
      */
     public function index(Organization $organization)
     {
-        $organization->load(['loans.user', 'loans.comaker', 'loans.confirmation']);
-        return $organization->loans;
+        return $organization->loans()
+            ->with('user.confirmation')
+            ->with('comaker.confirmation')
+            ->with('confirmation')
+            ->paginate(10);
     }
 
     /**
@@ -71,7 +74,11 @@ class LoanController extends Controller
      */
     public function show(Organization $organization, $id)
     {
-        return $organization->loans()->findOrFail($id);
+        return $organization->loans()
+            ->with('user.confirmation')
+            ->with('comaker.confirmation')
+            ->with('confirmation')
+            ->findOrFail($id);
     }
 
     /**

@@ -14,6 +14,7 @@ class Organization extends Model
         'website',
         'address',
         'number',
+        'email',
     ];
 
     public function members()

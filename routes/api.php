@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationMemberController;
@@ -27,7 +28,8 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
         'organizations' => OrganizationController::class,
         'organizations.members' => OrganizationMemberController::class,
         'organizations.loans' => LoanController::class,
+        'users' => UserController::class,
     ]);
 
-    Route::apiResource('users', UserController::class)->middleware('admin');
+    Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
 });

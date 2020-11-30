@@ -16,14 +16,16 @@ class OrganizationController extends Controller
     {
         if (!$request->user()->isAdmin()) {
             return $request->user()->memberships()
+                ->orderBy('created_at')
                 ->with([
                     'organization.members.user',
                     'organization.loans'
                 ])->paginate(15);
         }
-        return Organization::with([
-            'members.user'
-        ])->paginate(15);
+        return Organization::orderBy('created_at', 'DESC')
+            ->with([
+                'members.user'
+            ])->paginate(15);
     }
 
     /**
