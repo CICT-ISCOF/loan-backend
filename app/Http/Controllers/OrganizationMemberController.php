@@ -45,7 +45,11 @@ class OrganizationMemberController extends Controller
                 ->where('organization_id', $organization->id)
                 ->first();
             if (!$membership || $membership->role === 'Member') {
-                return response('', 403);
+                return response([
+                    'errors' => [
+                        'role' => ['Insufficient priviledges.'],
+                    ]
+                ], 403);
             }
         }
 
@@ -113,7 +117,11 @@ class OrganizationMemberController extends Controller
         }
 
         if (!(new Confirmed())->passes('user_id', $user->id)) {
-            return response('', 403);
+            return response([
+                'errors' => [
+                    'user_id' => ['User is not verified.']
+                ]
+            ], 403);
         }
 
         if (!(new IsNotMember($organization))->passes('user_id', $user->id)) {
