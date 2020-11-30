@@ -12,8 +12,15 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (!$request->user()->isAdmin()) {
+            return $request->user()->memberships()
+                ->with([
+                    'organization.members.user',
+                    'organization.loans'
+                ])->paginate(15);
+        }
         return Organization::with([
             'members.user'
         ])->paginate(15);
@@ -44,8 +51,19 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization)
+    public function show(Request $request, Organization $organization)
     {
+        if (!$request->user()->isAdmin()) {
+            $membership = $request->user()->memberships()
+                ->where('organization_id', $organization->id)
+                ->with([
+                    'organization.members.user',
+                    'organization.loans.user',
+                    'organization.loans.comaker',
+                    'organization.loans.confirmation',
+                ])->first();
+            return $membership ? $membership->organization : response('', 404);
+        }
         return $organization;
     }
 
@@ -58,6 +76,19 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, Organization $organization)
     {
+        if (!$request->user()->isAdmin()) {
+            $membership = $request->user()->memberships()
+                ->where('organization_id', $organization->id)
+                ->with([
+                    'organization.members.user',
+                    'organization.loans.user',
+                    'organization.loans.comaker',
+                    'organization.loans.confirmation',
+                ])->first();
+            if (!$membership || $membership->role !== 'Admin') {
+                return response('', 404);
+            }
+        }
         $data = $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
             'website' => ['nullable', 'string', 'max:255'],
@@ -76,8 +107,21 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Organization $organization)
+    public function destroy(Request $request, Organization $organization)
     {
+        if (!$request->user()->isAdmin()) {
+            $membership = $request->user()->memberships()
+                ->where('organization_id', $organization->id)
+                ->with([
+                    'organization.members.user',
+                    'organization.loans.user',
+                    'organization.loans.comaker',
+                    'organization.loans.confirmation',
+                ])->first();
+            if (!$membership || $membership->role !== 'Admin') {
+                return response('', 404);
+            }
+        }
         $organization->delete();
 
         return response('', 204);

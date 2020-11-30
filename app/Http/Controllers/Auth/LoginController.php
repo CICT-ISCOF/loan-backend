@@ -23,14 +23,22 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $password = $data['password'];
-
-        $user = new User();
-        foreach ($data as $key => $value) {
-            $user = $user->orWhere($key, $value);
+        $user = User::where('username', $data['username'])->first();
+        if (!$user->confirmation->approved) {
+            return response([
+                'errors' => [
+                    'confirmation' => ['Phone number not verified.'],
+                ],
+            ], 403);
         }
-        $user = $user->first();
-        if (!Hash::check($password, $user->password)) {
+        if (!$user->approved) {
+            return response([
+                'errors' => [
+                    'approval' => ['Account not yet approved. Please try again later.'],
+                ],
+            ], 403);
+        }
+        if (!Hash::check($data['password'], $user->password)) {
             return response(['errors' => ['password' => ['Password incorrect.']], $data], 422);
         }
         $token = $user->createToken($user->username);

@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->hasMany(OrganizationMember::class);
     }
 
+    public function isAdmin()
+    {
+        return $this->role === 'Super Admin';
+    }
+
     public function scopeConfirmed($query)
     {
         $ids = Confirmation::confirmed()
