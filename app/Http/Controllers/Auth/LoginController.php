@@ -23,7 +23,11 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $user = User::where('username', $data['username'])->first();
+        $user = User::where('username', $data['username'])
+            ->with([
+                'memberships.organization.loans',
+                'memberships.organization.members',
+            ])->first();
         if (!$user->confirmation->approved) {
             return response([
                 'errors' => [
@@ -43,9 +47,23 @@ class LoginController extends Controller
         }
         $token = $user->createToken($user->username);
 
+        $roles = [
+            'admin' => [],
+            'bookeeper' => [],
+            'staff' => [],
+            'member' => [],
+        ];
+
+        if ($user->role === 'Normal') {
+            foreach ($user->memberships as $membership) {
+                $roles[ucfirst($membership->role)][] = $membership;
+            }
+        }
+
         return response([
             'user' => $user,
             'token' => $token->plainTextToken,
+            'roles' => $roles,
         ]);
     }
 }
