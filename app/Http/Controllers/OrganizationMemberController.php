@@ -126,7 +126,9 @@ class OrganizationMemberController extends Controller
             ], 403);
         }
 
-        $member = $organization->members()->create($data);
+        $member = $organization->members()->create($data + [
+            'user_id' => $user->id
+        ]);
         return response($member, 201);
     }
 
