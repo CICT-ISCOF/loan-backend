@@ -35,6 +35,7 @@ class User extends Authenticatable
 
         'role',
         'approved',
+        'monthly_salary',
     ];
 
     /**
@@ -50,6 +51,8 @@ class User extends Authenticatable
     protected $casts = [
         'approved' => 'boolean'
     ];
+
+    protected $appends = ['remaining_salary'];
 
     protected static function booted()
     {
@@ -68,6 +71,15 @@ class User extends Authenticatable
         static::deleting(function ($user) {
             $user->confirmation->delete();
         });
+    }
+
+    public function getRemainingSalaryAttribute()
+    {
+        $monthly = floatval($this->attributes['monthly_salary']);
+        foreach ($this->loans as $loan) {
+            $monthly -= floatval($loan->amount);
+        }
+        return number_format($monthly, 0);
     }
 
     public function setPasswordAttribute($value)

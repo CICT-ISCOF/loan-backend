@@ -26,6 +26,7 @@ class RegisterController extends Controller
             'last_name' => ['required'],
             'address' => ['required'],
             'number' => ['required', Rule::unique('users', 'number')],
+            'monthly_salary' => ['required'],
         ]);
 
         return User::create($data);

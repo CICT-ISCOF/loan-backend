@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('address');
             $table->string('number')->unique();
+            $table->string('monthly_salary')->default('0');
 
             $table->string('account_number');
 
