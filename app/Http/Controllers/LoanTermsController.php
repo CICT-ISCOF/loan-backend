@@ -33,8 +33,8 @@ class LoanTermsController extends Controller
     }
 
     
-    public function destroy(LoanTerms $loanTerms)
+    public function destroy($id)
     {
-        return LoanTerms::find($loanTerms)->delete();
+        return LoanTerms::find($id)->delete();
     }
 }
