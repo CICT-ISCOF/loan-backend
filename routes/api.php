@@ -38,10 +38,14 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
         'organizations.loans' => LoanController::class,
         'organizations.loans.payments' => PaymentController::class,
         'users' => UserController::class,
+
+
         // ---------jamel----------
-        'saving-terms' => SavingTermsController::class,
-        'loan-terms' => LoanTermsController::class,
-        'loan-applications' => LoanApplicationsController::class,
+		'saving-terms' => SavingTermsController::class,
+		'loan-terms' => LoanTermsController::class,
+		'loan-applications' => LoanApplicationsController::class,
+        'savings' => LoanApplicationsController::class,
+
     ]);
 
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
