@@ -38,6 +38,7 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
 		'saving-terms' => SavingTermsController::class,
 		'loan-terms' => LoanTermsController::class,
 		'loan-applications' => LoanApplicationsController::class,
+        'savings' => LoanApplicationsController::class,
     ]);
 
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
