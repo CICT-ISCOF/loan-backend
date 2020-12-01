@@ -10,9 +10,29 @@ class SearchController extends Controller
 {
     public function user(Request $request)
     {
-        return User::search($request->input('query'))
-            ->where('role', $request->input('role'))
+        $users = User::search($request->input('query'))
             ->get();
+
+        $users->load([
+            'confirmation',
+            'memberships.organization.loans',
+            'memberships.organization.members',
+        ]);
+
+        if ($request->has('role')) {
+            $role = $request->input('role');
+
+            $users = $users->filter(function ($user) use ($role) {
+                foreach ($user->memberships as $membership) {
+                    if ($membership->role === $role) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+
+        return $users;
     }
 
     public function members(Request $request, Organization $organization)
