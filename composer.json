@@ -21,8 +21,7 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
-        "twilio/sdk": "^6.13",
-        "yab/laravel-scout-mysql-driver": "^3.0"
+        "teamtnt/laravel-scout-tntsearch-driver": "^11.1"
     },
     "config": {
         "optimize-autoloader": true,

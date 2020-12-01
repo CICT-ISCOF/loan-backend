@@ -69,9 +69,21 @@ class User extends Authenticatable
         });
     }
 
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'position' => $this->position,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'account_number' => $this->account_number,
+        ];
+    }
+
     public function getRemainingSalaryAttribute()
     {
-        $monthly = floatval($this->attributes['monthly_salary']);
+        $monthly = floatval($this->monthly_salary);
         foreach ($this->loans as $loan) {
             $monthly -= floatval($loan->amount);
         }

@@ -165,7 +165,9 @@ return [
         /*
          * Package Service Providers...
          */
-        Yab\MySQLScout\Providers\MySQLScoutServiceProvider::class,
+
+        Laravel\Scout\ScoutServiceProvider::class,
+        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
 
         /*
          * Application Service Providers...
