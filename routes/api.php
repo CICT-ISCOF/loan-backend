@@ -41,9 +41,9 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
 
 
         // ---------jamel----------
-		'saving-terms' => SavingTermsController::class,
-		'loan-terms' => LoanTermsController::class,
-		'loan-applications' => LoanApplicationsController::class,
+        'saving-terms' => SavingTermsController::class,
+        'loan-terms' => LoanTermsController::class,
+        'loan-applications' => LoanApplicationsController::class,
         'savings' => LoanApplicationsController::class,
 
     ]);
@@ -51,4 +51,5 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
     Route::get('/loans', UserLoanController::class);
     Route::get('/search/user', [SearchController::class, 'user']);
+    Route::get('search/{organization}/members', [SearchController::class, 'members']);
 });

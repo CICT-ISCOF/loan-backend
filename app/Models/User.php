@@ -36,6 +36,7 @@ class User extends Authenticatable
         'role',
         'approved',
         'monthly_salary',
+        'account_number'
     ];
 
     /**
@@ -56,11 +57,6 @@ class User extends Authenticatable
 
     protected static function booted()
     {
-        static::creating(function ($user) {
-            $number = rand(1000, 9999) . '-' . rand(1000, 9999) . '-' . rand(1000, 9999);
-            $user->account_number = $number;
-        });
-
         static::created(function ($user) {
             $user->confirmation()->create([
                 'hash' => Str::random(5),

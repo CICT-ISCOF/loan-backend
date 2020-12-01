@@ -50,6 +50,7 @@ class UserController extends Controller
             'number' => ['required', Rule::unique('users', 'number')],
             'role' => ['nullable', Rule::in(['Super Admin', 'Normal'])],
             'monthly_salary' => ['required'],
+            'account_number' => ['nullable'],
         ]);
 
         return User::create($data);
@@ -75,6 +76,7 @@ class UserController extends Controller
             'number' => ['nullable', Rule::unique('users', 'number')->ignoreModel($user)],
             'role' => ['nullable', Rule::in(['Super Admin', 'Normal'])],
             'monthly_salary' => ['nullable'],
+            'account_number' => ['nullable'],
         ]);
 
         $user->update($data);
