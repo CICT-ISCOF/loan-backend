@@ -99,6 +99,12 @@ class OrganizationMemberController extends Controller
                         ->first() !== null;
                 })
             ],
+            'monthly_salary' => [
+                Rule::requiredIf(function () use ($request) {
+                    return User::where('username', $request->username)
+                        ->first() !== null;
+                })
+            ],
             'user_id' => [
                 Rule::requiredIf(function () use ($request) {
                     return !$request->has('username');
