@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Organization;
 
 class LoanTerms extends Model
 {
@@ -20,5 +21,9 @@ class LoanTerms extends Model
 		'interest_in_percent',
 		'penalty_per_interval',
 	];
+
+	public function organization(){
+		return $this->belongsTo(Organization::class, 'organization_id', 'id');
+	}
 }
 

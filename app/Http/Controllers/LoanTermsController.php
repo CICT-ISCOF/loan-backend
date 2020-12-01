@@ -12,7 +12,7 @@ class LoanTermsController extends Controller
    
     public function index()
     {
-        return LoanTerms::all();
+        return LoanTerms::with('organization')->get();
     }
 
     public function store(Request $request)
