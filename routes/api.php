@@ -9,6 +9,11 @@ use App\Http\Controllers\OrganizationMemberController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// -------jamel---------
+use App\Http\Controllers\SavingTermsController;
+use App\Http\Controllers\LoanTermsController;
+use App\Http\Controllers\LoanApplicationsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +34,10 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
         'organizations.members' => OrganizationMemberController::class,
         'organizations.loans' => LoanController::class,
         'users' => UserController::class,
+        // ---------jamel----------
+		'saving-terms' => SavingTermsController::class,
+		'loan-terms' => LoanTermsController::class,
+		'loan-applications' => LoanApplicationsController::class,
     ]);
 
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
