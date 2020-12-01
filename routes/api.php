@@ -14,6 +14,7 @@ use App\Http\Controllers\SavingTermsController;
 use App\Http\Controllers\LoanTermsController;
 use App\Http\Controllers\LoanApplicationsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserLoanController;
 
 /*
@@ -45,4 +46,5 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
 
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
     Route::get('/loans', UserLoanController::class);
+    Route::get('/search/user', [SearchController::class, 'user']);
 });
