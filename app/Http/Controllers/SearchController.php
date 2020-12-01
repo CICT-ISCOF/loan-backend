@@ -17,7 +17,7 @@ class SearchController extends Controller
 
     public function members(Request $request, Organization $organization)
     {
-        $builder = $organization->members();
+        $builder = $organization->members()->with('user');
         if ($request->has('role')) {
             $builder = $builder->{$request->role}();
         }
