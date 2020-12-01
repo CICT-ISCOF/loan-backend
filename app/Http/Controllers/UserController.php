@@ -20,6 +20,8 @@ class UserController extends Controller
             'confirmation',
             'memberships.organization.loans',
             'memberships.organization.members',
+            'loans.payments',
+            'loans.organization.members',
         ])->paginate(10);
     }
 
@@ -31,6 +33,8 @@ class UserController extends Controller
                 'confirmation',
                 'memberships.organization.loans',
                 'memberships.organization.members',
+                'loans.payments',
+                'loans.organization.members',
             ])->findOrFail($id);
     }
 

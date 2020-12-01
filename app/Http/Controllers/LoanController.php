@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Loan;
 use App\Models\Organization;
+use App\Models\User;
 use App\Rules\Confirmed;
 use App\Rules\IsMember;
 use Illuminate\Http\Request;
@@ -62,6 +63,9 @@ class LoanController extends Controller
         ]);
 
         $loan = $organization->loans()->create($data);
+        $organization->logs()->create([
+            'message' => 'User created a loan.'
+        ]);
 
         return response($loan, 201);
     }
@@ -107,14 +111,33 @@ class LoanController extends Controller
             'interval' => ['nullable', 'string', 'max:255'],
             'charges' => ['nullable', 'string', 'max:255'],
             'terms' => ['nullable', 'string'],
+            'user_id' => [
+                'required',
+                Rule::exists('users', 'id'),
+                new Confirmed(),
+                new IsMember($organization),
+            ],
             'comaker_id' => [
                 'nullable',
                 Rule::exists('users', 'id'),
                 new Confirmed(),
+                new IsMember($organization),
             ],
         ]);
 
+        if ($data['status'] === 'Renewal') {
+            $user = User::find($data['user_id']);
+            $loan = $user->loans()
+                ->where('organization_id', $organization->id)
+                ->latest()
+                ->first();
+            $data['previous_amount'] = $loan->amount;
+        }
+
         $loan->update($data);
+        $organization->logs()->create([
+            'message' => 'User updated a loan.'
+        ]);
 
         return $loan;
     }
@@ -130,6 +153,9 @@ class LoanController extends Controller
         $loan = $organization->loans()->findOrFail($id);
 
         $loan->delete();
+        $organization->logs()->create([
+            'message' => 'User deleted a loan.'
+        ]);
 
         return response('', 204);
     }

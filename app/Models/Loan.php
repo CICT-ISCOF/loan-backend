@@ -38,6 +38,11 @@ class Loan extends Model
         });
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
