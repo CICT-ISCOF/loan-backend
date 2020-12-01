@@ -20,6 +20,8 @@ class UserController extends Controller
             'confirmation',
             'memberships.organization.loans',
             'memberships.organization.members',
+            'loans.payments',
+            'loans.organization.members',
         ])->paginate(10);
     }
 
@@ -31,6 +33,8 @@ class UserController extends Controller
                 'confirmation',
                 'memberships.organization.loans',
                 'memberships.organization.members',
+                'loans.payments',
+                'loans.organization.members',
             ])->findOrFail($id);
     }
 
@@ -61,13 +65,13 @@ class UserController extends Controller
             ])->findOrFail($id);
 
         $data = $request->validate([
-            'username' => ['nullable', Rule::unique('users', 'username')],
+            'username' => ['nullable', Rule::unique('users', 'username')->ignoreModel($user)],
             'password' => ['nullable', 'string', 'max:255'],
             'position' => ['nullable'],
             'first_name' => ['nullable'],
             'last_name' => ['nullable'],
             'address' => ['nullable'],
-            'number' => ['nullable', Rule::unique('users', 'number')],
+            'number' => ['nullable', Rule::unique('users', 'number')->ignoreModel($user)],
             'role' => ['nullable', Rule::in(['Super Admin', 'Normal'])],
         ]);
 

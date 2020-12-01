@@ -8,10 +8,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory,
+        Notifiable,
+        HasApiTokens,
+        Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -97,5 +101,10 @@ class User extends Authenticatable
             ->toArray();
         return $query->whereIn('id', $ids)
             ->where('approved', true);
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
     }
 }
