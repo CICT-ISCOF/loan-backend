@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
         'savings' => LoanApplicationsController::class,
 
     ]);
-
+ 
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
     Route::get('/loans', UserLoanController::class);
     Route::get('/search/user', [SearchController::class, 'user']);
