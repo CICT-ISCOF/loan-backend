@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Organization;
+use App\Models\User;
 
 class CreateWithdrawalsTable extends Migration
 {
