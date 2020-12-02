@@ -24,32 +24,34 @@ class SearchController extends Controller
         if ($request->has('role')) {
             $role = $request->input('role');
 
-            $users = $users->filter(function ($user) use ($role) {
+            $users = new Collection($users->filter(function ($user) use ($role) {
                 foreach ($user->memberships as $membership) {
                     if ($membership->role === $role) {
                         return true;
                     }
                 }
                 return false;
-            });
+            }));
         }
 
         if ($request->has('organization_id')) {
             $organization = Organization::find($request->input('organization_id'));
-            $members = $organization->members()
-                ->whereIn('user_id', $users->map(function ($user) {
-                    return $user->id;
-                })
-                    ->all())
-                ->with('user')
-                ->get();
+            if ($organization) {
+                $members = new Collection($organization->members()
+                    ->whereIn('user_id', $users->map(function ($user) {
+                        return $user->id;
+                    })
+                        ->all())
+                    ->with('user')
+                    ->get());
 
-            $users = $members->map(function ($member) {
-                return $member->user;
-            });
+                $users = new Collection($members->map(function ($member) {
+                    return $member->user;
+                }));
+            }
         }
 
-        return $users;
+        return $users->all();
     }
 
     public function members(Request $request, Organization $organization)
