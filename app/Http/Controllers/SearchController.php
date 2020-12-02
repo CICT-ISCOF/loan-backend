@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
     public function user(Request $request)
     {
-        $users = User::search($request->input('query'))
-            ->get();
+        $users = new Collection(User::search($request->input('query'))
+            ->get()
+            ->all());
 
         $users->load([
             'confirmation',
@@ -37,7 +39,8 @@ class SearchController extends Controller
             $members = $organization->members()
                 ->whereIn('user_id', $users->map(function ($user) {
                     return $user->id;
-                }))
+                })
+                    ->all())
                 ->with('user')
                 ->get();
 
