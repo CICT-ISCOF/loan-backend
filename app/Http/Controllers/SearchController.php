@@ -54,7 +54,12 @@ class SearchController extends Controller
             }
         }
 
-        return (array)$users->all();
+        $data = [];
+
+        foreach ($users->all() as $user) {
+            $data[] = $user;
+        }
+        return $data;
     }
 
     public function members(Request $request, Organization $organization)
