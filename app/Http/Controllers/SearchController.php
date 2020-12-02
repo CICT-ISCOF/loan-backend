@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\OrganizationMember;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -37,16 +38,19 @@ class SearchController extends Controller
         if ($request->has('organization_id')) {
             $organization = Organization::find($request->input('organization_id'));
             if ($organization) {
-                $members = $organization->members()
-                    ->whereIn('user_id', $users->map(function ($user) {
-                        return $user->id;
-                    })
-                        ->all())
+                $ids = $users->map(function ($user) {
+                    return $user->id;
+                })
+                    ->all();
+                $members = OrganizationMember::where('organization_id', $organization->id)
+                    ->whereIn('user_id', $ids)
                     ->get();
 
-                $users = User::whereIn('id', $members->map(function ($member) {
+                $ids = $members->map(function ($member) {
                     return $member->user_id;
-                }))->get();
+                })->all();
+
+                $users = User::whereIn('id', $ids)->get();
             }
         }
 
