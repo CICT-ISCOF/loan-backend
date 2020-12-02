@@ -16,7 +16,7 @@ use App\Http\Controllers\LoanApplicationsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserLoanController;
-
+use App\Http\Controllers\SavingsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,7 +44,7 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
         'saving-terms' => SavingTermsController::class,
         'loan-terms' => LoanTermsController::class,
         'loan-applications' => LoanApplicationsController::class,
-        'savings' => LoanApplicationsController::class,
+        'savings' => SavingsController::class,
 
     ]);
  

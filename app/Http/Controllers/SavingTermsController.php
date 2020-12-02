@@ -16,7 +16,7 @@ class SavingTermsController extends Controller
    
     public function store(Request $request, Organization $organization)
     {
-         $savingTerms = SavingTerms::all();
+         $savingTerms = SavingTerms::where('organization_id',$request->input('organization_id'))->get();
          if(count($savingTerms) == 0 ){
            $newSavingTerms = SavingTerms::create($request->all());
            return $newSavingTerms;
