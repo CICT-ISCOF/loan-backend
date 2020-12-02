@@ -54,7 +54,7 @@ class SearchController extends Controller
             }
         }
 
-        return $users->all();
+        return (array)$users->all();
     }
 
     public function members(Request $request, Organization $organization)
