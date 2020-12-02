@@ -24,8 +24,6 @@ class Loan extends Model
         'user_id',
     ];
 
-    protected $with = ['confirmation'];
-
     protected static function booted()
     {
         static::created(function ($loan) {

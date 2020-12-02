@@ -54,8 +54,6 @@ class User extends Authenticatable
         'approved' => 'boolean'
     ];
 
-    protected $with = ['confirmation'];
-
     protected $appends = ['remaining_salary'];
 
     protected static function booted()
