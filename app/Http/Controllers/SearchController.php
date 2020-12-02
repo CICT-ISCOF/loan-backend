@@ -37,17 +37,16 @@ class SearchController extends Controller
         if ($request->has('organization_id')) {
             $organization = Organization::find($request->input('organization_id'));
             if ($organization) {
-                $members = new Collection($organization->members()
+                $members = $organization->members()
                     ->whereIn('user_id', $users->map(function ($user) {
                         return $user->id;
                     })
                         ->all())
-                    ->with('user')
-                    ->get());
+                    ->get();
 
-                $users = new Collection($members->map(function ($member) {
-                    return $member->user;
-                }));
+                $users = User::whereIn('id', $members->map(function ($member) {
+                    return $member->user_id;
+                }))->get();
             }
         }
 
