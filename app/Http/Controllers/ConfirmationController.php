@@ -41,7 +41,8 @@ class ConfirmationController extends Controller
     public function update(Request $request, Confirmation $confirmation)
     {
         $data = $request->validate([
-            'approved' => ['required', 'boolean'],
+            'approved' => ['nullable', 'boolean'],
+            'status' => ['nullable', 'string']
         ]);
 
         $confirmation->update($data);

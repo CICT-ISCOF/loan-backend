@@ -20,17 +20,6 @@ class LoanApplicationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        return response('', 403);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -51,19 +40,8 @@ class LoanApplicationController extends Controller
     public function update(Request $request, $id)
     {
         $confirmation = Confirmation::loan()->findOrFail($id);
-        $confirmation->update($request->only('approved'));
+        $confirmation->update($request->only(['approved', 'status']));
 
         return $confirmation;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        return response('', 403);
     }
 }
