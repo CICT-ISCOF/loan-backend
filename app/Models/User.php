@@ -36,7 +36,8 @@ class User extends Authenticatable
         'role',
         'approved',
         'monthly_salary',
-        'account_number'
+        'account_number',
+        'net_pay',
     ];
 
     /**
@@ -52,6 +53,8 @@ class User extends Authenticatable
     protected $casts = [
         'approved' => 'boolean'
     ];
+
+    protected $with = ['confirmation'];
 
     protected $appends = ['remaining_salary'];
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ConfirmationController;
+use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationMemberController;
@@ -49,6 +50,7 @@ Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'
     ]);
  
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
+    Route::apiResource('confirmations/loans', LoanApplicationController::class)->except(['store', 'destroy']);
     Route::get('/loans', UserLoanController::class);
     Route::get('/search/user', [SearchController::class, 'user']);
     Route::get('search/{organization}/members', [SearchController::class, 'members']);

@@ -18,6 +18,7 @@ class CreateConfirmationsTable extends Migration
             $table->morphs('confirmable');
             $table->string('hash');
             $table->boolean('approved')->default(false);
+            $table->string('status')->default('Pending');
             $table->timestamps();
         });
     }

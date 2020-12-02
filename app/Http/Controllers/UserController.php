@@ -51,6 +51,7 @@ class UserController extends Controller
             'role' => ['nullable', Rule::in(['Super Admin', 'Normal'])],
             'monthly_salary' => ['required'],
             'account_number' => ['nullable'],
+            'net_pay' => ['nullable'],
         ]);
 
         return User::create($data);
@@ -77,6 +78,7 @@ class UserController extends Controller
             'role' => ['nullable', Rule::in(['Super Admin', 'Normal'])],
             'monthly_salary' => ['nullable'],
             'account_number' => ['nullable'],
+            'net_pay' => ['nullable'],
         ]);
 
         $user->update($data);

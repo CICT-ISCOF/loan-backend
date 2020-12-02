@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('monthly_salary')->default('0');
 
             $table->string('account_number')->nullable();
+            $table->string('net_pay')->nullable();
 
             $table->enum('role', [
                 'Super Admin',
