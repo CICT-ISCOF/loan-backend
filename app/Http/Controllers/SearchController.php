@@ -24,14 +24,14 @@ class SearchController extends Controller
         if ($request->has('role')) {
             $role = $request->input('role');
 
-            $users = new Collection($users->filter(function ($user) use ($role) {
+            $users = $users->filter(function ($user) use ($role) {
                 foreach ($user->memberships as $membership) {
                     if ($membership->role === $role) {
                         return true;
                     }
                 }
                 return false;
-            }));
+            });
         }
 
         if ($request->has('organization_id')) {
