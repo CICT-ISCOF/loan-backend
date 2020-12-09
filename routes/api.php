@@ -17,7 +17,8 @@ use App\Http\Controllers\LoanApplicationsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserLoanController;
-
+use App\Http\Controllers\SavingsController;
+use App\Http\Controllers\WithdrawalController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,18 +34,19 @@ Route::post('/register', RegisterController::class);
 Route::post('/login', LoginController::class);
 
 Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'])->group(function () {
-    Route::apiResources([
-        'loans' => LoanController::class,
-        'loans.payments' => PaymentController::class,
-        'users' => UserController::class,
-        'saving-terms' => SavingTermsController::class,
-        'loan-terms' => LoanTermsController::class,
-        'loan-applications' => LoanApplicationsController::class,
-        'savings' => LoanApplicationsController::class,
-    ]);
+	Route::apiResources([
+		'loans' => LoanController::class,
+		'loans.payments' => PaymentController::class,
+		'users' => UserController::class,
+		'saving-terms' => SavingTermsController::class,
+		'loan-terms' => LoanTermsController::class,
+		'loan-applications' => LoanApplicationsController::class,
+		'savings' => SavingsController::class,
+		'withdrawals' => WithdrawalController::class,
+	]);
 
-    Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
-    Route::apiResource('confirmations/loans', LoanApplicationController::class)->except(['store', 'destroy']);
-    Route::get('/loans', UserLoanController::class);
-    Route::get('/search/user', [SearchController::class, 'user']);
+	Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
+	Route::apiResource('confirmations/loans', LoanApplicationController::class)->except(['store', 'destroy']);
+	Route::get('/loans', UserLoanController::class);
+	Route::get('/search/user', [SearchController::class, 'user']);
 });

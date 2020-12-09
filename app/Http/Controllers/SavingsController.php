@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class SavingsController extends Controller
 {
-
     public function index()
     {
         return Savings::with('user')->get();
