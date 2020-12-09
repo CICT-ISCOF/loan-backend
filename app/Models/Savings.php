@@ -11,11 +11,13 @@ class Savings extends Model
 
     protected $fillable = [
         'user_id',
-        'organization_id',
-        'amount',      
+        'amount',
     ];
 
-    public function organization(){
-		return $this->belongsTo(Organization::class, 'organization_id', 'id');
-	}
+    protected $with = ['user'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -14,7 +14,7 @@ class LogController extends Controller
      */
     public function index()
     {
-        return Log::with('loggable')->paginate(10);
+        return Log::paginate(10);
     }
 
     /**
@@ -36,7 +36,6 @@ class LogController extends Controller
      */
     public function show(Log $log)
     {
-        $log->load('loggable');
         return $log;
     }
 

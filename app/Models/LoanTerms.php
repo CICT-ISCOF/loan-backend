@@ -8,22 +8,16 @@ use App\Models\Organization;
 
 class LoanTerms extends Model
 {
-    use HasFactory;
-   
-	protected $fillable = [  
+	use HasFactory;
+
+	protected $fillable = [
 		'plan_name',
 		'loan_type',
 		'interval',
 		'amount',
 		'total_gain',
 		'description',
-		'organization_id',
 		'interest_in_percent',
 		'penalty_per_interval',
 	];
-
-	public function organization(){
-		return $this->belongsTo(Organization::class, 'organization_id', 'id');
-	}
 }
-

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
-use App\Models\Payment;
+use App\Models\Loan;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -13,9 +12,9 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Organization $organization, $loanID)
+    public function index($loanID)
     {
-        $loan = $organization->loans()->findOrFail($loanID);
+        $loan = Loan::findOrFail($loanID);
 
         return $loan->payments()->paginate(10);
     }
@@ -26,9 +25,9 @@ class PaymentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Organization $organization, $loanID)
+    public function store(Request $request, $loanID)
     {
-        $loan = $organization->loans()->findOrFail($loanID);
+        $loan = Loan::findOrFail($loanID);
         return response($loan->payments()->create($request->all()), 201);
     }
 
@@ -38,9 +37,9 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization, $loanID, $paymentID)
+    public function show($loanID, $paymentID)
     {
-        $loan = $organization->loans()->findOrFail($loanID);
+        $loan = Loan::findOrFail($loanID);
 
         return $loan->payments()->findOrFail($paymentID);
     }
@@ -52,9 +51,9 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization, $loanID, $paymentID)
+    public function update(Request $request, $loanID, $paymentID)
     {
-        $loan = $organization->loans()->findOrFail($loanID);
+        $loan = Loan::findOrFail($loanID);
 
         $payment = $loan->payments()->findOrFail($paymentID);
 
@@ -69,9 +68,9 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Organization $organization, $loanID, $paymentID)
+    public function destroy($loanID, $paymentID)
     {
-        $loan = $organization->loans()->findOrFail($loanID);
+        $loan = Loan::findOrFail($loanID);
 
         $payment = $loan->payments()->findOrFail($paymentID);
 

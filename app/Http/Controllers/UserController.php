@@ -18,10 +18,7 @@ class UserController extends Controller
         $user = $request->user();
         return User::where('id', '!=', $user->id)->with([
             'confirmation',
-            'memberships.organization.loans',
-            'memberships.organization.members',
             'loans.payments',
-            'loans.organization.members',
         ])->paginate(10);
     }
 
@@ -31,10 +28,7 @@ class UserController extends Controller
         return User::where('id', '!=', $user->id)
             ->with([
                 'confirmation',
-                'memberships.organization.loans',
-                'memberships.organization.members',
                 'loans.payments',
-                'loans.organization.members',
             ])->findOrFail($id);
     }
 
@@ -63,8 +57,6 @@ class UserController extends Controller
         $user = User::where('id', '!=', $currentUser->id)
             ->with([
                 'confirmation',
-                'memberships.organization.loans',
-                'memberships.organization.members',
             ])->findOrFail($id);
 
         $data = $request->validate([

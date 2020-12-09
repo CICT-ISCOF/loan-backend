@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class SavingsController extends Controller
 {
-   
+
     public function index()
     {
-        return Savings::with('organization')->get();
+        return Savings::with('user')->get();
     }
 
     public function store(Request $request)
@@ -18,21 +18,25 @@ class SavingsController extends Controller
         return Savings::create($request->all());
     }
 
-    
-    public function show($id)
+
+    public function show(Savings $savings)
     {
-        return Savings::where('user_id', $id)->get();
+        $savings->load('user');
+        return $savings;
     }
 
-   
-    public function update(Request $request, $id)
+
+    public function update(Request $request, Savings $savings)
     {
-        return Savings::find($id)->update($request->all());  
+        $savings->update($request->all());
+        $savings->load('user');
+        return $savings;
     }
 
-  
-    public function destroy($id)
+
+    public function destroy(Savings $savings)
     {
-       return Savings::find($id)->delete();
+        $savings->delete();
+        return response('', 204);
     }
 }

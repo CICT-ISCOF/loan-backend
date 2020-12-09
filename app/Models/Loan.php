@@ -20,7 +20,6 @@ class Loan extends Model
         'charges',
         'terms',
         'comaker_id',
-        'organization_id',
         'user_id',
     ];
 
@@ -41,11 +40,6 @@ class Loan extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
-    }
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
     }
 
     public function comaker()

@@ -34,24 +34,17 @@ Route::post('/login', LoginController::class);
 
 Route::middleware(['auth:sanctum', 'restrict:unapproved', 'restrict:unconfirmed'])->group(function () {
     Route::apiResources([
-        'organizations' => OrganizationController::class,
-        'organizations.members' => OrganizationMemberController::class,
-        'organizations.loans' => LoanController::class,
-        'organizations.loans.payments' => PaymentController::class,
+        'loans' => LoanController::class,
+        'loans.payments' => PaymentController::class,
         'users' => UserController::class,
-
-
-        // ---------jamel----------
         'saving-terms' => SavingTermsController::class,
         'loan-terms' => LoanTermsController::class,
         'loan-applications' => LoanApplicationsController::class,
         'savings' => LoanApplicationsController::class,
-
     ]);
 
     Route::apiResource('confirmations', ConfirmationController::class)->except(['store', 'destroy']);
     Route::apiResource('confirmations/loans', LoanApplicationController::class)->except(['store', 'destroy']);
     Route::get('/loans', UserLoanController::class);
     Route::get('/search/user', [SearchController::class, 'user']);
-    Route::get('search/{organization}/members', [SearchController::class, 'members']);
 });

@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
@@ -70,6 +72,12 @@ class User extends Authenticatable
         });
     }
 
+    public static function notifyAdmins(Notification $notification)
+    {
+        $users = static::where('role', 'Super Admin')->get();
+        NotificationFacade::send($users, $notification);
+    }
+
     public function toSearchableArray()
     {
         return [
@@ -101,11 +109,6 @@ class User extends Authenticatable
         return $this->morphOne(Confirmation::class, 'confirmable');
     }
 
-    public function memberships()
-    {
-        return $this->hasMany(OrganizationMember::class);
-    }
-
     public function isAdmin()
     {
         return $this->role === 'Super Admin';
@@ -117,7 +120,7 @@ class User extends Authenticatable
             ->user()
             ->get()
             ->map(function ($confirmation) {
-                return $confirmation->confirmable_id;
+                return (int)$confirmation->confirmable_id;
             })
             ->toArray();
         return $query->whereIn('id', $ids)

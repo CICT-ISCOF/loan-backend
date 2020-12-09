@@ -23,11 +23,6 @@ class Log extends Model
         });
     }
 
-    public function loggable()
-    {
-        return $this->morphTo();
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);

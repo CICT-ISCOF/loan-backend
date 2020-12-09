@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Loan;
-use App\Models\Organization;
 use App\Models\User;
 use App\Rules\Confirmed;
-use App\Rules\IsMember;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -17,10 +15,9 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Organization $organization)
+    public function index()
     {
-        return $organization->loans()
-            ->with('user.confirmation')
+        return Loan::with('user.confirmation')
             ->with('comaker.confirmation')
             ->with('confirmation')
             ->paginate(10);
@@ -32,14 +29,13 @@ class LoanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Organization $organization)
+    public function store(Request $request)
     {
         $data = $request->validate([
             'user_id' => [
                 'required',
                 Rule::exists('users', 'id'),
                 new Confirmed(),
-                new IsMember($organization),
             ],
             'status' => ['required', 'string', Rule::in(['New', 'Renewal'])],
             'type' => ['required', 'string', Rule::in([
@@ -62,12 +58,9 @@ class LoanController extends Controller
             ],
         ]);
 
-        $loan = $organization->loans()->create($data);
-        $organization->logs()->create([
-            'message' => 'User created a loan.'
-        ]);
+        $loan = Loan::create($data);
 
-        return response($loan, 201);
+        return $loan;
     }
 
     /**
@@ -76,10 +69,9 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization, $id)
+    public function show($id)
     {
-        return $organization->loans()
-            ->with('user.confirmation')
+        return Loan::with('user.confirmation')
             ->with('comaker.confirmation')
             ->with('confirmation')
             ->findOrFail($id);
@@ -92,9 +84,9 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization, $id)
+    public function update(Request $request, $id)
     {
-        $loan = $organization->loans()->findOrFail($id);
+        $loan = Loan::findOrFail($id);
 
         $data = $request->validate([
             'status' => ['nullable', 'string', Rule::in(['New', 'Renewal'])],
@@ -115,29 +107,23 @@ class LoanController extends Controller
                 'required',
                 Rule::exists('users', 'id'),
                 new Confirmed(),
-                new IsMember($organization),
             ],
             'comaker_id' => [
                 'nullable',
                 Rule::exists('users', 'id'),
                 new Confirmed(),
-                new IsMember($organization),
             ],
         ]);
 
         if ($data['status'] === 'Renewal') {
             $user = User::find($data['user_id']);
             $loan = $user->loans()
-                ->where('organization_id', $organization->id)
                 ->latest()
                 ->first();
             $data['previous_amount'] = $loan->amount;
         }
 
         $loan->update($data);
-        $organization->logs()->create([
-            'message' => 'User updated a loan.'
-        ]);
 
         return $loan;
     }
@@ -148,14 +134,11 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Organization $organization, $id)
+    public function destroy($id)
     {
-        $loan = $organization->loans()->findOrFail($id);
+        $loan = Loan::findOrFail($id);
 
         $loan->delete();
-        $organization->logs()->create([
-            'message' => 'User deleted a loan.'
-        ]);
 
         return response('', 204);
     }
