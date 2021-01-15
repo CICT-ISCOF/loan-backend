@@ -19,6 +19,10 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserLoanController;
 use App\Http\Controllers\SavingsController;
 use App\Http\Controllers\WithdrawalController;
+use App\Http\Controllers\SMSController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,6 +34,8 @@ use App\Http\Controllers\WithdrawalController;
 |
 */
 
+
+Route::resource('/sms', SMSController::class);
 Route::post('/register', RegisterController::class);
 Route::post('/login', LoginController::class);
 
