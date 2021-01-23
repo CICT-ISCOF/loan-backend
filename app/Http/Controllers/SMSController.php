@@ -23,7 +23,7 @@ class SMSController extends Controller
     public function store(Request $request)
     {
         $account_sid = 'ACecd20fbc83b92ecaa850fd158a7d73ae';
-        $auth_token = '9f4d9851028832f24c4eabdf3845be08';
+        $auth_token = 'cfa2f9591cf4b5e684425a996c785a9f';
 
         $twilio_number = "+17733668388";
 
